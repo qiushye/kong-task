@@ -1,0 +1,58 @@
+syntax = "v1"
+
+info(
+	title: "linting rule"
+	desc: "Access Control API"
+	author: "Xiayu Qiu"
+	version: "v1"
+)
+
+type (
+	CreateRuleReq {
+		LintingRule
+	}
+
+	CreateRuleResp {
+		Id string `json:"id"`
+	}
+
+	LintingRule {
+		Name    string            `json:"name"`
+		Project string            `json:"project"`
+		Content map[string]string `json:"content"`
+	}
+
+	UpdateRuleReq {
+		Id string `json:"id"`
+		LintingRule
+	}
+
+	GetRuleReq {
+		Id      string `form:"id,optional"`
+		Name    string `form:"name,optional"`
+		Project string `form:"project,optional"`
+	}
+
+	GetRuleResp {
+		Id string `json:"id"`
+		LintingRule
+	}
+)
+
+@server(
+	middleware: Auth
+	group: rule
+)
+service kong-task-api {
+	@doc "创建规则"
+	@handler CreateRule
+	post /v1/rule (CreateRuleReq) returns (CreateRuleResp)
+	
+	@doc "修改规则"
+	@handler UpdateRule
+	put /v1/rule/:id (UpdateRuleReq)
+	
+	@doc "获取规则"
+	@handler GetRule
+	get /v1/rule (GetRuleReq) returns  (GetRuleResp)
+}
