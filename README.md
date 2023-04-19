@@ -11,9 +11,15 @@
 ```
 db.user.insert({uid:1,name:"admin",project:"insomnia",organization:"kong",isAdmin:true,actionType:100})
 ```
-- 各字段含义参考 cmd/internal/model/user.go
+- 上述命令字段含义参考 cmd/internal/model/user.go
 - 接口文档 cmd/task.md
 - 接口调用示例（Insomnia导出） cmd/Insomnia_2023-04-20.yaml 
+- 执行命令:
+  ```
+    git clone https://github.com/qiushye/kong-task.git
+    cd kong-task/cmd
+    go run kong-task.go
+  ```
 
  ### 访问控制原理
  通过header中的信息解析出uid，目前uid是明文传输，根据uid在db中查到的权限来决定接口的返回。
