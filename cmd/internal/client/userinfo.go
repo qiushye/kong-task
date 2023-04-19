@@ -5,14 +5,12 @@ import "context"
 var userInfoKey = "user-info"
 
 type UserInfo struct {
-	Uid          uint32 `json:"Uid"`
-	Name         string `json:"name"`
-	Organization string `json:"organization"`
-	ActionType   uint   `json:"actionType"`
+	Uid uint32 `json:"Uid"`
 }
 
 const (
-	ActionRO uint = iota
+	ActionNone uint = iota
+	ActionRO
 	ActionRW
 )
 

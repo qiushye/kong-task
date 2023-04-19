@@ -1,3 +1,8 @@
 Name: kong-task-api
 Host: 0.0.0.0
-Port: 8888
+Port: 8899
+Mongo:
+  Url: mongodb://127.0.0.1:27017/kong
+  DB: kong
+Cache:
+  - Host: 127.0.0.1:223

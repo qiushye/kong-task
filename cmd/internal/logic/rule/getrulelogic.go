@@ -2,7 +2,9 @@ package rule
 
 import (
 	"context"
+	"fmt"
 
+	"kong-task/cmd/internal/client"
 	"kong-task/cmd/internal/svc"
 	"kong-task/cmd/internal/types"
 
@@ -24,7 +26,36 @@ func NewGetRuleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRuleLo
 }
 
 func (l *GetRuleLogic) GetRule(req *types.GetRuleReq) (resp *types.GetRuleResp, err error) {
-	// todo: add your logic here and delete this line
+	u, ok := client.FromContext(l.ctx)
+	if !ok {
+		return nil, fmt.Errorf("auth failed")
+	}
 
-	return
+	user, err := l.svcCtx.UserModel.FindOne(l.ctx, u.Uid, req.Project)
+	if err != nil {
+		return nil, fmt.Errorf("invalid user")
+	}
+
+	if user.ActionType < client.ActionRO {
+		return nil, fmt.Errorf("you are unable to query rule")
+	}
+
+	rule, err := l.svcCtx.RuleModel.FindOne(l.ctx, req.Name)
+	if err != nil {
+		l.Logger.Errorf("insert rule(%+v) failed: %v", *req, err)
+		return
+	}
+
+	if rule.Project != req.Project {
+		return nil, fmt.Errorf("rule name doesn't belong to the project")
+	}
+
+	return &types.GetRuleResp{
+		Id: rule.RuleId(),
+		LintingRule: types.LintingRule{
+			Name:    rule.Name,
+			Project: rule.Project,
+			Content: rule.Content,
+		},
+	}, nil
 }

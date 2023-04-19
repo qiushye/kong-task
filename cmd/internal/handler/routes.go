@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	rule "kong-task/cmd/internal/handler/rule"
+	user "kong-task/cmd/internal/handler/user"
 	"kong-task/cmd/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -29,6 +30,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/v1/rule",
 					Handler: rule.GetRuleHandler(serverCtx),
+				},
+			}...,
+		),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Auth},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/v1/user",
+					Handler: user.AddUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/v1/user/:uid",
+					Handler: user.UpdateUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/v1/user/:uid",
+					Handler: user.RemoveUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/v1/user",
+					Handler: user.GetUsersHandler(serverCtx),
 				},
 			}...,
 		),

@@ -8,7 +8,7 @@ import (
 type Config struct {
 	rest.RestConf
 	Mongo MongoConfig
-	Redis cache.CacheConf
+	Cache cache.CacheConf
 }
 
 type MongoConfig struct {

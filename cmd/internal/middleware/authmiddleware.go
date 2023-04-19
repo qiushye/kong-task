@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"kong-task/cmd/internal/client"
 	"net/http"
-	"strings"
+	"net/url"
+	"strconv"
 )
 
 type AuthMiddleware struct {
@@ -17,8 +18,8 @@ func NewAuthMiddleware() *AuthMiddleware {
 func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		token := r.Header.Get("token")
-		userInfo, err := parseToken(token)
+		auth := r.Header.Get("Auth")
+		userInfo, err := parseToken(auth)
 		if err != nil {
 			w.WriteHeader(401)
 			w.Write([]byte(err.Error()))
@@ -32,33 +33,24 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-// 这里写死检查方法，暂时没有其他服务可以提高token校验
-func parseToken(token string) (*client.UserInfo, error) {
+// 这里的鉴权实际是明文，op-uid=*** 格式
+func parseToken(auth string) (*client.UserInfo, error) {
 
 	var (
-		userInfo *client.UserInfo
-		err      error
+		err error
 	)
-	if strings.HasPrefix(token, "0") {
 
-		userInfo = &client.UserInfo{
-			Uid:          123,
-			Name:         "Eric",
-			Organization: "Kong",
-			ActionType:   0,
-		}
-	} else if strings.HasPrefix(token, "1") {
-
-		userInfo = &client.UserInfo{
-			Uid:          456,
-			Name:         "Tom",
-			Organization: "Kong",
-			ActionType:   1,
-		}
-	} else {
-
-		err = fmt.Errorf("invalid token")
+	values, err := url.ParseQuery(auth)
+	if err != nil {
+		return nil, fmt.Errorf("parse query failed: %s", err.Error())
+	}
+	opUid, err := strconv.ParseUint(values.Get("op_uid"), 10, 64)
+	if err != nil {
+		return nil, fmt.Errorf("parse op_uid failed: %s", err.Error())
 	}
 
-	return userInfo, err
+	u := &client.UserInfo{
+		Uid: uint32(opUid),
+	}
+	return u, nil
 }

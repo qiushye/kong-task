@@ -17,18 +17,17 @@ type (
 	}
 
 	LintingRule {
-		Name    string            `json:"name"`
-		Project string            `json:"project"`
-		Content map[string]string `json:"content"`
+		Name    string `json:"name"`
+		Project string `json:"project"`
+		Content string `json:"content"`
 	}
 
 	UpdateRuleReq {
-		Id string `json:"id"`
+		Id string `path:"id"`
 		LintingRule
 	}
 
 	GetRuleReq {
-		Id      string `form:"id,optional"`
 		Name    string `form:"name,optional"`
 		Project string `form:"project,optional"`
 	}
@@ -55,4 +54,60 @@ service kong-task-api {
 	@doc "获取规则"
 	@handler GetRule
 	get /v1/rule (GetRuleReq) returns  (GetRuleResp)
+}
+
+type (
+	UseInfo {
+		Uid          uint32 `json:"uid"`                       // 添加到project的用户id
+		Name         string `json:"name"`                      // 添加到project的用户名
+		Project      string `json:"project"`                   // 项目名
+		Organization string `json:"organization,default=kong"` // 组织名，默认为kong
+		IsAdmin      bool   `json:"isAdmin"`                   // 是否为管理员
+		ActionType   uint   `json:"actionType"`                // 权限
+	}
+
+	UpdateUserReq {
+		Uid          uint32 `path:"uid"`                       // 添加到project的用户id
+		Project      string `json:"project"`                   // 项目名
+		Organization string `json:"organization,default=kong"` // 组织名，默认为kong
+		IsAdmin      bool   `json:"isAdmin"`                   // 是否为管理员
+		ActionType   uint   `json:"actionType"`                // 权限
+	}
+
+	RemoveUserReq {
+		Uid          uint32 `path:"uid"`                       // 添加到project的用户id
+		Project      string `json:"project"`                   // 项目名
+		Organization string `json:"organization,default=kong"` // 组织名，默认为kong
+	}
+
+	GetUsersReq {
+		Project      string `form:"project"`                   // 项目名
+		Organization string `form:"organization,default=kong"` // 组织名，默认为kong
+	}
+
+	GetUsersResp {
+		Users []UseInfo `json:"users"`
+	}
+)
+
+@server(
+	middleware: Auth
+	group: user
+)
+service kong-task-api {
+	@doc "添加用户到项目中"
+	@handler AddUser
+	post /v1/user (UseInfo)
+	
+	@doc "更新用户在项目中的权限"
+	@handler UpdateUser
+	put /v1/user/:uid (UpdateUserReq)
+	
+	@doc "从项目中移除用户"
+	@handler RemoveUser
+	delete /v1/user/:uid (RemoveUserReq)
+	
+	@doc "获取项目的用户列表"
+	@handler GetUsers
+	get /v1/user (GetUsersReq) returns (GetUsersResp)
 }

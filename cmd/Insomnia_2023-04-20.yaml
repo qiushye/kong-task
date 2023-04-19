@@ -1,0 +1,279 @@
+_type: export
+__export_format: 4
+__export_date: 2023-04-19T16:06:52.976Z
+__export_source: insomnia.desktop.app:v2023.1.0
+resources:
+  - _id: req_32ca4afa0c8344059872fc4f584ff0d2
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919524341
+    created: 1681913253441
+    url: http://127.0.0.1:8899/v1/rule
+    name: query_rule
+    description: ""
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params: []
+    parameters:
+      - id: pair_3e7d5bf8c6f245798e419339b4c33db8
+        name: project
+        value: test
+        description: ""
+        disabled: false
+      - id: pair_43287006d64c468687c977d7b73fe571
+        name: name
+        value: rule2
+        description: ""
+    headers:
+      - name: Auth
+        value: op_uid=10
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+    authentication: {}
+    metaSortKey: -1681913253441
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    parentId: null
+    modified: 1681913280268
+    created: 1681544283438
+    name: kong-task
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_9ee43e37b3264771b4ef620fa85816a2
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919602284
+    created: 1681914586825
+    url: http://127.0.0.1:8899/v1/rule
+    name: create_rule
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name":"rule2",
+        	"project":"test",
+          "content":"title: swagger"
+        }
+    parameters: []
+    headers:
+      - name: Auth
+        value: op_uid=1
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+        id: pair_2f218b7fea8842a1892cf733d97e747c
+    authentication: {}
+    metaSortKey: -1681729339459
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8f161c0823a243878c7941df0a8f0002
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919507631
+    created: 1681914592457
+    url: http://127.0.0.1:8899/v1/rule/64400beada847792f387aaa0
+    name: update_rule
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name":"rule2",
+        	"project":"test",
+          "content":"title: swagger api"
+        }
+    parameters: []
+    headers:
+      - name: Auth
+        value: op_uid=10
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1681637382468
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6bc2eeece9654340a59e8d52bf79fb7e
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919434840
+    created: 1681914615626
+    url: http://127.0.0.1:8899/v1/user
+    name: add_user
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"uid":10,
+        	"name":"Eric",
+        	"project":"insomnia",
+        	"isAdmin":false,
+        	"actionType":2,
+        	"organization":"kong"
+        }
+    parameters: []
+    headers:
+      - name: Auth
+        value: op_uid=1
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+        id: pair_55d1ff84b5f645eda72cf7ddea1084ef
+    authentication: {}
+    metaSortKey: -1681591403972.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_9f428452028c4745a0ff666e30067f17
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919545670
+    created: 1681916817421
+    url: http://127.0.0.1:8899/v1/user/10
+    name: update_user
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"uid":10,
+        	"project":"test",
+        	"isAdmin":false,
+        	"actionType":1,
+        	"organization":"kong"
+        }
+    parameters: []
+    headers:
+      - name: Auth
+        value: op_uid=1
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+        id: pair_55d1ff84b5f645eda72cf7ddea1084ef
+    authentication: {}
+    metaSortKey: -1681574162036.6875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_96c73ed6e40d407d86d9639832eabea2
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919447734
+    created: 1681914628703
+    url: http://127.0.0.1:8899/v1/user/10
+    name: remove_user
+    description: ""
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"project":"aa"
+        }
+    parameters: []
+    headers:
+      - name: Auth
+        value: op_uid=1
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+        id: pair_fbd04042c808470f907101c8901c709e
+    authentication: {}
+    metaSortKey: -1681556920100.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5969c24a8d8748c4924599cd3339b2e8
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681919450889
+    created: 1681917884871
+    url: http://127.0.0.1:8899/v1/user
+    name: get_users
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters:
+      - id: pair_e635a2318d1e41088fecb02af7d5ec3f
+        name: project
+        value: insomnia
+        description: ""
+    headers:
+      - name: Auth
+        value: op_uid=1
+        id: pair_4b818dee4c9c40ccab9f0dc3bcb9057e
+      - name: Content-Type
+        value: application/json
+        id: pair_0b01fb4ee9574db8a780fd2fb7e71ea2
+    authentication: {}
+    metaSortKey: -1681551172788.9375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_d0a91bddee1a6bd669d78b92c229a16a49af6fa9
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681544283441
+    created: 1681544283441
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1681544283441
+    _type: environment
+  - _id: jar_d0a91bddee1a6bd669d78b92c229a16a49af6fa9
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681544283442
+    created: 1681544283442
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_7a1395059c16488ba5d1f84ac22ac605
+    parentId: wrk_ea5eedd5da6b4a28a6de5c67c0a6b926
+    modified: 1681544283439
+    created: 1681544283439
+    fileName: My Collection
+    contents: ""
+    contentType: yaml
+    _type: api_spec
